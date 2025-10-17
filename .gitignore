@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Editor/IDE files
+.vscode/
+.idea/
+*~
+*.swp
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Generated outputs and intermediate data
+outputs/
+*.pkl
+
+
+# Generated data files
+data/*.geojson
+data/*.csv
+
+# Downloaded archives
+*.zip
+
+# Environment variables
+.env
+
+# Downloaded/extracted fonts
+dejavu-fonts/
+*.ttf
