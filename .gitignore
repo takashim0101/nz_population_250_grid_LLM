@@ -21,6 +21,14 @@ Thumbs.db
 # Generated outputs and intermediate data
 outputs/
 *.pkl
+*.pdf
+*.png
+
+# Exceptions for specific showcased outputs
+!scripts/NZ_Population_Report_20251017_081647.pdf
+!scripts/population_density_map.png
+!scripts/top_livability_chunks.png
+!scripts/top_population_chunks.png
 
 
 # Generated data files
