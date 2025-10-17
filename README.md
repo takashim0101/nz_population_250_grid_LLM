@@ -4,7 +4,7 @@ This project analyzes New Zealand's population data on a 250m grid, generating v
 
 ## AI Model Used
 
-The development, analysis, and code generation for this project were assisted by Google's Gemini model.
+The development, analysis, and code generation for this project were assisted by Google's Gemini model and Ollama (used in `analyze_population.py` for report generation and policy suggestions).
 
 ## Project Overview
 
@@ -18,6 +18,19 @@ The core workflow involves several stages:
 4.  **Report Generation**: Analytical findings, visualizations, and summary statistics are compiled into structured PDF reports for comprehensive documentation and dissemination.
 
 Each stage is orchestrated via independent Python scripts, forming an Extract, Transform, Load (ETL) pipeline that converts raw data into actionable intelligence.
+
+## Key Features & Technologies
+
+*   **Data Acquisition**: Automatic data retrieval from the ArcGIS FeatureServer API.
+*   **Data Preprocessing**: Cleaning, transforming, and validating data.
+*   **Geospatial Analysis**: Analyzing population distribution and density using `geopandas`.
+*   **Data Visualization**: Creating various graphs such as heatmaps and bar charts using `matplotlib` and `seaborn`.
+*   **LLM (Large Language Model) Integration**: Automatically generates text reports and policy recommendations using a locally-run Ollama LLM (Llama 2), ensuring data privacy and cost-effectiveness.
+*   **PDF Report Generation**: Using `fpdf` to compile analysis results, visualizations, and LLM outputs into structured PDFs.
+*   **Coordinate Transformation**: Converting coordinate reference systems (CRS) using `pyproj`.
+*   **Reverse Geocoding**: Obtains place names from coordinates using the free OpenStreetMap Nominatim API, contributing to lower operational costs and enhanced data security.
+*   **Advanced Integration**: Combines multiple advanced technologies and concepts, including handling geospatial data and integrating LLMs.
+
 
 ## Setup
 
