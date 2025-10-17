@@ -1,59 +1,58 @@
-
 import geopandas as gpd
 import os
 
-# --- 設定 ---
-# このスクリプトから見た、GeoJSONファイルへの相対パス
+# --- Configuration ---
+# Relative path to the GeoJSON file from this script
 GEOJSON_FILE_PATH = '../data/nz_population.geojson'
 # ---
 
 def diagnose_geojson(file_path):
     """
-    GeoJSONファイルを読み込み、無効または空のジオメトリがないかチェックします。
+    Reads a GeoJSON file and checks for invalid or empty geometries.
     """
-    print(f"--- 診断開始: {file_path} ---")
+    print(f"--- Starting Diagnosis: {file_path} ---")
 
-    # ファイルの存在確認
+    # Check if file exists
     if not os.path.exists(file_path):
-        print(f"エラー: ファイルが見つかりません '{file_path}'")
-        print("GEOJSON_FILE_PATHが正しいか確認してください。")
+        print(f"Error: File not found at '{file_path}'")
+        print("Please check if GEOJSON_FILE_PATH is correct.")
         return
 
-    # ファイル読み込み
+    # Read the file
     try:
         gdf = gpd.read_file(file_path)
-        print(f"ファイル読み込み成功。{len(gdf)}個の地物が見つかりました。")
+        print(f"File read successfully. Found {len(gdf)} features.")
     except Exception as e:
-        print(f"ファイル読み込みエラー: {e}")
-        print("ファイルが破損しているか、有効なGeoJSON形式ではない可能性があります。")
+        print(f"Error reading file: {e}")
+        print("The file might be corrupted or not a valid GeoJSON format.")
         return
 
-    # --- ジオメトリ（形状）のチェック ---
-    print("\n--- ジオメトリのチェック中 ---")
+    # --- Checking Geometries ---
+    print("\n--- Checking Geometries ---")
 
-    # 1. 空のジオメトリがないかチェック
+    # 1. Check for empty geometries
     empty_geometries = gdf[gdf.geometry.is_empty]
     if not empty_geometries.empty:
-        print(f"警告: {len(empty_geometries)}個の空のジオメトリが見つかりました。")
+        print(f"Warning: Found {len(empty_geometries)} empty geometries.")
     else:
-        print("空のジオメトリはありませんでした。")
+        print("No empty geometries were found.")
 
-    # 2. 無効なジオメトリがないかチェック
+    # 2. Check for invalid geometries
     invalid_geometries = gdf[~gdf.geometry.is_valid]
     if not invalid_geometries.empty:
-        print(f"★問題発見★: {len(invalid_geometries)}個の無効なジオメトリが見つかりました。")
-        print("これが地図の描画に失敗する、ほぼ確実な原因です。")
+        print(f"★ PROBLEM FOUND ★: Found {len(invalid_geometries)} invalid geometries.")
+        print("This is almost certainly the reason for map rendering failures.")
     else:
-        print("すべてのジオメトリは有効です。")
+        print("All geometries are valid.")
 
-    print("\n--- 診断完了 ---")
+    print("\n--- Diagnosis Complete ---")
     if not invalid_geometries.empty:
-        print("結論: 無効なジオメトリが発見されました。これがコロプレス地図が表示されない原因である可能性が非常に高いです。")
-        print("提案: QGISなどのGISツールでファイルを開き、「ジオメトリの修正」アルゴリズムを実行してください。")
+        print("Conclusion: Invalid geometries were found. This is very likely the cause of the choropleth map not displaying.")
+        print("Suggestion: Open the file in a GIS tool like QGIS and run the 'Fix geometries' algorithm.")
     elif not empty_geometries.empty:
-        print("結論: 空のジオメトリが見つかりました。これも問題の原因である可能性があります。")
+        print("Conclusion: Empty geometries were found. This could also be a potential cause of issues.")
     else:
-        print("結論: この基本的なチェックでは、明らかなジオメトリエラーは見つかりませんでした。問題はより複雑（例: 形状が複雑すぎるなど）である可能性があります。")
+        print("Conclusion: No obvious geometry errors were found in this basic check. The issue might be more complex (e.g., overly complex shapes).")
 
 
 if __name__ == '__main__':
